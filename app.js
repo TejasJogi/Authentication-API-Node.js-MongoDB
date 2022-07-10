@@ -1,11 +1,14 @@
 const express = require('express');
 const { MongoClient } = require('mongodb')
+require('dotenv').config()
 
 const app = express()
 
 app.use(express.json())
 
 const port = 3000
+
+const uri = process.env.URI
 
 app.get('/', (req, res) => {
 
