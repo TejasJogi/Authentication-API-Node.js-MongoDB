@@ -9,7 +9,15 @@ app.use(express.json())
 const port = 3000
 
 const uri = process.env.URI
-const client = new MongoClient(uri)
+const dbo = new MongoClient(uri)
+const db = dbo.db("Node")
+
+MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    console.log("Database created!");
+    db.close();
+  });
+
 
 app.get('/', (req, res) => {
 
