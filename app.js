@@ -18,7 +18,6 @@ MongoClient.connect(url, function(err, db) {
     db.close();
   });
 
-
 app.get('/', (req, res) => {
 
     let message = "<h1>Welcome to Node.js MongoDB API<h1>"
