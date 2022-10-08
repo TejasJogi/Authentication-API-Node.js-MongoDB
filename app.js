@@ -12,11 +12,6 @@ const uri = process.env.URI
 const dbo = new MongoClient(uri)
 const db = dbo.db("Node")
 
-MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    console.log("Database created!");
-    db.close();
-  });
 
 app.get('/', (req, res) => {
 
@@ -26,8 +21,8 @@ app.get('/', (req, res) => {
 
 app.get('/signup', (req, res) => {
 
-    
-    res.send()
+    dbo.connect({
+    })
 })
 
 app.listen(port, () => {
