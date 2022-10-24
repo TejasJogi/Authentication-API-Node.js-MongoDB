@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express')
 const { MongoClient } = require('mongodb')
 require('dotenv').config()
 
@@ -9,8 +9,9 @@ app.use(express.json())
 const port = 3000
 
 const uri = process.env.URI
-const dbo = new MongoClient(uri)
-const db = dbo.db("Node")
+const dbo = new MongoClient(uri, {useNewUrlParser: true});
+const db = dbo.db("technokart")
+const col = db.collection('employees')
 
 
 app.get('/', (req, res) => {
@@ -19,10 +20,15 @@ app.get('/', (req, res) => {
     res.send(message)
 })
 
-app.get('/signup', (req, res) => {
+app.get('/employeeDetails', (req, res) => {
 
-    dbo.connect({
-    })
+    MongoClient.connect(uri, async function(err, db) {
+        if (err) throw err;
+
+        let emp = await col.find({}).toArray()
+        res.send(emp)
+        db.close();
+        });
 })
 
 app.listen(port, () => {
