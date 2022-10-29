@@ -20,15 +20,31 @@ app.get('/', (req, res) => {
     res.send(message)
 })
 
-app.get('/employeeDetails', (req, res) => {
+app.get('/empDetails', (req, res) => {
 
     MongoClient.connect(uri, async function(err, db) {
         if (err) throw err;
 
         let emp = await col.find({}).toArray()
+
         res.send(emp)
         db.close();
-        });
+    });
+})
+
+app.post('/empRegister', (req, res) => {
+
+    MongoClient.connect(uri, async function(err,db) {
+        if (err) throw err;
+
+        empReg = req.body
+        console.log(empReg)
+
+        let reg = await col.insertOne(empReg)
+
+        res.send(reg)
+        db.close();
+    })
 })
 
 app.listen(port, () => {
