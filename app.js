@@ -1,3 +1,4 @@
+const { query } = require('express')
 const express = require('express')
 const { MongoClient } = require('mongodb')
 require('dotenv').config()
@@ -38,11 +39,26 @@ app.post('/empRegister', (req, res) => {
         if (err) throw err;
 
         empReg = req.body
-        console.log(empReg)
 
         let reg = await col.insertOne(empReg)
 
         res.send(reg)
+        db.close();
+    })
+})
+
+app.post('/empUpdate', (req, res) => {
+
+    MongoClient.connect(uri, async function(err,db) {
+        if (err) throw err;
+
+        empUp = req.body
+        squery = {"EmpID": empUp.EmpID}
+        upd = {$set: empUp}
+
+        let up = await col.updateOne(squery, upd)
+
+        res.send(up)
         db.close();
     })
 })
