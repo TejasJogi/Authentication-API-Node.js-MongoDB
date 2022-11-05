@@ -10,7 +10,7 @@ app.use(express.json())
 const port = 3000
 
 const uri = process.env.URI
-const dbo = new MongoClient(uri, {useNewUrlParser: true});
+const dbo = new MongoClient(uri, {useNewUrlParser: true})
 const db = dbo.db("technokart")
 const col = db.collection('employees')
 
@@ -59,6 +59,19 @@ app.post('/empUpdate', (req, res) => {
         let up = await col.updateOne(squery, upd)
 
         res.send(up)
+        db.close();
+    })
+})
+
+app.post('/empDelete', (req, res) => {
+
+    MongoClient.connect(uri, async function (err,db) {
+        if (err) throw err;
+        empDlt = req.body
+
+        let dlt = await col.deleteOne(empDlt)
+
+        res.send(dlt)
         db.close();
     })
 })
