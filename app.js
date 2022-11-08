@@ -33,6 +33,22 @@ app.get('/empDetails', (req, res) => {
     });
 })
 
+app.get('/empDetail', (req, res) =>{
+
+    MongoClient.connect(uri, async function(err, db) {
+        if (err) throw err;
+
+        empl = req.body
+        console.log(empl)
+        
+        let emple = await col.findOne({"EmpID": empl.EmpID})
+
+        console.log(emple)
+        res.send(emple)
+        db.close();
+    })
+})
+
 app.post('/empRegister', (req, res) => {
 
     MongoClient.connect(uri, async function(err,db) {
