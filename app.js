@@ -38,7 +38,7 @@ app.get('/api/empDetail', (req, res) =>{
         if (err) throw err;
 
         empl = req.body
-        console.log(empl33)
+        console.log(empl)
         
         let emple = await col.findOne({"EmpID": empl.EmpID})
 
