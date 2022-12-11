@@ -1,4 +1,3 @@
-const { query } = require('express')
 const express = require('express')
 const { MongoClient } = require('mongodb')
 require('dotenv').config()
@@ -15,13 +14,13 @@ const db = dbo.db("technokart")
 const col = db.collection('employees')
 
 
-app.get('/', (req, res) => {
+app.get('/api/', (req, res) => {
 
     let message = "<h1>Welcome to Node.js MongoDB API<h1>"
     res.send(message)
 })
 
-app.get('/empDetails', (req, res) => {
+app.get('/api/empDetails', (req, res) => {
 
     MongoClient.connect(uri, async function(err, db) {
         if (err) throw err;
@@ -33,13 +32,13 @@ app.get('/empDetails', (req, res) => {
     });
 })
 
-app.get('/empDetail', (req, res) =>{
+app.get('/api/empDetail', (req, res) =>{
 
     MongoClient.connect(uri, async function(err, db) {
         if (err) throw err;
 
         empl = req.body
-        console.log(empl)
+        console.log(empl33)
         
         let emple = await col.findOne({"EmpID": empl.EmpID})
 
@@ -49,7 +48,7 @@ app.get('/empDetail', (req, res) =>{
     })
 })
 
-app.post('/empRegister', (req, res) => {
+app.post('/api/empRegister', (req, res) => {
 
     MongoClient.connect(uri, async function(err,db) {
         if (err) throw err;
@@ -63,7 +62,7 @@ app.post('/empRegister', (req, res) => {
     })
 })
 
-app.post('/empUpdate', (req, res) => {
+app.post('/api/empUpdate', (req, res) => {
 
     MongoClient.connect(uri, async function(err,db) {
         if (err) throw err;
@@ -79,7 +78,7 @@ app.post('/empUpdate', (req, res) => {
     })
 })
 
-app.post('/empDelete', (req, res) => {
+app.post('/api/empDelete', (req, res) => {
 
     MongoClient.connect(uri, async function (err,db) {
         if (err) throw err;
