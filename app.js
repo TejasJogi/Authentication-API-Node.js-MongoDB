@@ -10,6 +10,8 @@ app.use(express.json())
 const port = 3000
 
 const uri = process.env.URI
+const Basic_Access_Token = process.env.Basic_Access_Token
+
 const dbo = new MongoClient(uri, {useNewUrlParser: true})
 const db = dbo.db("technokart")
 const col = db.collection('employees')
@@ -23,16 +25,20 @@ app.get('/api', (req, res) => {
 
 app.post('/api/login', (req, res) => {
 
-    const user = {
-        username : 'Tejas',
-        email : 'tejasjogi@gmail.com'
+    data = req.headers.authorization
+
+    basicToken = data.split(' ')[1]
+    
+    if (basicToken == Basic_Access_Token) {
+        jwt.sign(Basic_Access_Token, 'secretKey', (err, token)=> {
+            res.json({token})
+        })
+    }
+    else {
+        res.send({error: "You are not authorised"})
     }
 
-    jwt.sign({user}, 'secretKey', (err, token)=> {
-        res.json({
-            token
-        })
-    })
+    
 })
 
 app.get('/api/empDetails', (req, res) => {
