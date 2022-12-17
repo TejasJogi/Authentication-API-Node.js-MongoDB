@@ -1,6 +1,7 @@
 const express = require('express')
 const { MongoClient } = require('mongodb')
 require('dotenv').config()
+const jwt = require('jsonwebtoken')
 
 const app = express()
 
@@ -14,10 +15,24 @@ const db = dbo.db("technokart")
 const col = db.collection('employees')
 
 
-app.get('/api/', (req, res) => {
+app.get('/api', (req, res) => {
 
     let message = "<h1>Welcome to Node.js MongoDB API<h1>"
     res.send(message)
+})
+
+app.post('/api/login', (req, res) => {
+
+    const user = {
+        username : 'Tejas',
+        email : 'tejasjogi@gmail.com'
+    }
+
+    jwt.sign({user}, 'secretKey', (err, token)=> {
+        res.json({
+            token
+        })
+    })
 })
 
 app.get('/api/empDetails', (req, res) => {
