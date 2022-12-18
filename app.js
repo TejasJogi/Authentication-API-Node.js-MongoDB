@@ -31,15 +31,29 @@ app.post('/api/login', (req, res) => {
     
     if (basicToken == Basic_Access_Token) {
         jwt.sign(Basic_Access_Token, 'secretKey', (err, token)=> {
-            res.json({token})
+
+            res.send({token})
         })
     }
     else {
         res.send({error: "You are not authorised"})
     }
-
-    
 })
+
+function verifyToken(req, res, next) {
+    const bearer = req.headers.authorization
+    
+    if (typeof bearer !== 'undefined'){
+        const token = bearer.split(' ')[1]
+
+        req.token = token
+
+        next()
+    } else {
+        res.sendStatus(403)
+    }
+
+}
 
 app.get('/api/empDetails', (req, res) => {
 
@@ -48,7 +62,7 @@ app.get('/api/empDetails', (req, res) => {
 
         let emp = await col.find({}).toArray()
 
-        res.send(emp)
+        res.send(emp)  
         db.close();
     });
 })
